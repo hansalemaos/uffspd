@@ -127,10 +127,15 @@ def list_all_files(
     exefile = os.path.normpath(uffs_com_path)
     parsedpath = pathlib.Path(path2search).as_posix()
     wholecmdsearch = [rf"{exefile}", "--columns=all", file_extensions, parsedpath]
+    startupinfo = subprocess.STARTUPINFO()
+    creationflags = 0 | subprocess.CREATE_NO_WINDOW
+    startupinfo.wShowWindow = subprocess.SW_HIDE
     dada = subprocess.run(
         wholecmdsearch,
         shell=False,
         capture_output=True,
+        startupinfo=startupinfo,
+        creationflags=creationflags
     )
     out = dada.stdout
     dat2 = out.splitlines()
